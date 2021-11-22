@@ -13,6 +13,7 @@ namespace api.Controllers
         private readonly IAuthorizationManager _authenticationManager = new AuthorizationManager();
 
         [HttpPost]
+        [Route("/[controller]/login")]
         public ActionResult<User> LogIn(string email, string password)
         {
             User loggedInUser = _authenticationManager.LogIn(email, password);
@@ -20,6 +21,7 @@ namespace api.Controllers
         }
 
         [HttpPost]
+        [Route("/[controller]/register")]
         public ActionResult<User> Register(string email, string password)
         {
             User registeredUser = _authenticationManager.Register(email, password);
@@ -27,6 +29,7 @@ namespace api.Controllers
         }
 
         [HttpPost]
+        [Route("/[controller]/confirm")]
         public ActionResult<User> ConfirmRegistration(string email, string confirmationCode)
         {
             User confirmedUser = _authenticationManager.ConfirmRegistration(email, confirmationCode);
