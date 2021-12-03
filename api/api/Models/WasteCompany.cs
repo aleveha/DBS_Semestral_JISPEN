@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace api.Models {
-    public class MedicalCompany {
+    public class WasteCompany {
         [Key]
         public long id { get; set; }
 
@@ -12,6 +12,10 @@ namespace api.Models {
         public string companyId { get; set; }
 
         public string name { get; set; }
+        public int type { get; set; }
+
+        [Column("expired_at")]
+        public long? expiredAt { get; set; }
 
         [Column("territorial_unit_id")]
         public long territorialUnitId { get; set; }
@@ -22,17 +26,5 @@ namespace api.Models {
         public long addressId { get; set; }
 
         public Address address { get; set; }
-
-        [Column("contact_firstname")]
-        public string contactFirstName { get; set; }
-
-        [Column("contact_lastname")]
-        public string contactLastName { get; set; }
-
-        [Column("contact_phone")]
-        public int? contactPhoneName { get; set; }
-
-        [Column("contact_email")]
-        public string contactEmail { get; set; }
     }
 }
