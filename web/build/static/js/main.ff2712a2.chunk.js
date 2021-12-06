@@ -1,0 +1,2 @@
+(this.webpackJsonpweb=this.webpackJsonpweb||[]).push([[0],{10:function(e,t,n){"use strict";n.r(t);var c=n(1),r=n.n(c),i=n(3),s=n.n(i),j=(n(8),n(0)),o=function(){return Object(j.jsx)("div",{children:Object(j.jsx)("h1",{children:"JISPEN LOGIN PAGE"})})};var b=function(){return Object(j.jsx)(o,{})};s.a.render(Object(j.jsx)(r.a.StrictMode,{children:Object(j.jsx)(b,{})}),document.getElementById("root"))},8:function(e,t,n){}},[[10,1,2]]]);
+//# sourceMappingURL=main.ff2712a2.chunk.js.map
