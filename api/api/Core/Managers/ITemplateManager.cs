@@ -1,7 +1,12 @@
+using System.Collections.Generic;
 using api.Models;
 
 namespace api.Core.Managers {
     public interface ITemplateManager {
-        Template GetAllTemplates(string email);
+        List<Template> GetAllTemplates(long userId);
+        Template Get(long templateId);
+        Template Add(Template template);
+        Template Update(Template template);
+        bool Delete(Template template);
     }
 }

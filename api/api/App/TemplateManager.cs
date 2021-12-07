@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using api.Core.Managers;
 using api.Core.Repositories;
 using api.Models;
@@ -12,8 +13,24 @@ namespace api.App {
             _templateRepository = new TemplateRepository(context);
         }
 
-        public Template GetAllTemplates(string email) {
-            return _templateRepository.GetAllTemplates(email);
+        public List<Template> GetAllTemplates(long userId) {
+            return _templateRepository.GetAll(userId);
+        }
+
+        public Template Get(long templateId) {
+            return _templateRepository.Get(templateId);
+        }
+
+        public Template Add(Template template) {
+            return _templateRepository.Add(template);
+        }
+
+        public Template Update(Template template) {
+            return _templateRepository.Update(template);
+        }
+
+        public bool Delete(Template template) {
+            return _templateRepository.Delete(template);
         }
     }
 }

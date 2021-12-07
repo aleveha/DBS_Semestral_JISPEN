@@ -20,7 +20,6 @@ namespace api.Models {
             this.verifiedAt = verifiedAt;
         }
 
-        [Key]
         public long id { get; set; }
 
         public string email { get; set; }

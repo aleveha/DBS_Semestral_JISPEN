@@ -1,4 +1,4 @@
-using api.Persistence;
+﻿using api.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,12 +9,10 @@ using Microsoft.Extensions.Configuration;
 
 namespace api {
     public class Startup {
-        public static IConfiguration StaticConfig;
         private readonly IConfiguration _configuration;
 
         public Startup(IConfiguration configuration) {
             _configuration = configuration;
-            StaticConfig = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services) {
