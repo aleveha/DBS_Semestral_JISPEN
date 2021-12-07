@@ -1,6 +1,6 @@
 using api.Models;
 
-namespace api.Core {
+namespace api.Core.Repositories {
     public interface IUserRepository {
         User Get(string email);
 

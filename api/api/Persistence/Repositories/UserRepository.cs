@@ -1,5 +1,5 @@
 using System.Linq;
-using api.Core;
+using api.Core.Repositories;
 using api.Models;
 
 namespace api.Persistence.Repositories {

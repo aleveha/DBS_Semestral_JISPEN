@@ -1,5 +1,6 @@
 using System;
-using api.Core;
+using api.Core.Managers;
+using api.Core.Repositories;
 using api.Models;
 using api.Persistence;
 using api.Persistence.Repositories;

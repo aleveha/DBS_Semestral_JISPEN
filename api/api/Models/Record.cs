@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace api.Models {
     public class Record {
-        [Key]
+        
         public long id { get; set; }
 
         public float amount { get; set; }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace api.Models {
     public class WasteCompany {
-        [Key]
+        
         public long id { get; set; }
 
         public int uid { get; set; }
