@@ -1,9 +1,7 @@
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace api.Models {
     public class MedicalCompany {
-        
         public long id { get; set; }
 
         public int uid { get; set; }
@@ -30,9 +28,12 @@ namespace api.Models {
         public string contactLastName { get; set; }
 
         [Column("contact_phone")]
-        public int? contactPhoneName { get; set; }
+        public int? contactPhone { get; set; }
 
         [Column("contact_email")]
         public string contactEmail { get; set; }
+
+        [Column("user_id")]
+        public long userId { get; set; }
     }
 }

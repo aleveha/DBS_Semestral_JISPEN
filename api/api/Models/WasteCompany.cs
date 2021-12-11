@@ -1,9 +1,8 @@
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace api.Models {
     public class WasteCompany {
-        
         public long id { get; set; }
 
         public int uid { get; set; }
@@ -26,5 +25,11 @@ namespace api.Models {
         public long addressId { get; set; }
 
         public Address address { get; set; }
+
+        [Column("template_id")]
+        public long templateId { get; set; }
+
+        [JsonIgnore]
+        public virtual Template template { get; set; }
     }
 }

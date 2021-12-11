@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace api.Models {
     public class Address {
-        
         public long id { get; set; }
 
         public string city { get; set; }

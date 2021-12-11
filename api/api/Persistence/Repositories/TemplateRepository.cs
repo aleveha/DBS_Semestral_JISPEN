@@ -13,47 +13,82 @@ namespace api.Persistence.Repositories {
         }
 
         public List<Template> GetAll(long userId) {
-            return !UserHasTemplate(userId)
-                ? new List<Template>()
-                : _context.templates.Where(template => template.user.id.Equals(userId)).OrderBy(template => template.id)
-                    .Include(template => template.user).Include(template => template.medicalCompany).ThenInclude(comp => comp.address)
-                    .Include(template => template.medicalCompany).ThenInclude(comp => comp.address.zipcode)
-                    .Include(template => template.medicalCompany).ThenInclude(comp => comp.territorialUnit).ToList();
+            return SetIncludes(_context.templates.Where(template => template.user.id.Equals(userId)).OrderBy(template => template.id)).ToList();
         }
 
         public Template Get(long templateId) {
-            return TemplateExists(templateId)
-                ? _context.templates.Include(template => template.user).Include(template => template.medicalCompany).ThenInclude(comp => comp.address)
-                    .Include(template => template.medicalCompany).ThenInclude(comp => comp.address.zipcode)
-                    .Include(template => template.medicalCompany).ThenInclude(comp => comp.territorialUnit)
-                    .SingleOrDefault(template => template.id.Equals(templateId))
-                : null;
+            return SetIncludes(_context.templates).OrderBy(temp => temp.id).SingleOrDefault(template => template.id.Equals(templateId));
         }
 
         public Template Add(Template template) {
-            _context.templates.Add(template);
+            Template newTemplate = new Template {
+                title = template.title,
+                expiredAt = template.expiredAt,
+                userId = template.userId,
+                medicalCompanyId = template.medicalCompany.id
+            };
+            _context.templates.Add(newTemplate);
+
+            UpdateLinks(newTemplate, template);
             _context.SaveChanges();
-            return Get(template.id);
+
+            return Get(newTemplate.id);
         }
 
-        public Template Update(Template template) {
-            _context.templates.Update(template);
-            _context.SaveChanges();
-            return Get(template.id);
-        }
+        public bool Delete(long templateId) {
+            Template template = SetIncludes(_context.templates)
+                .Include(template => template.templateLoadingCodes)
+                .Include(template => template.templateWastes)
+                .OrderBy(temp => temp.id)
+                .SingleOrDefault(template => template.id.Equals(templateId));
 
-        public bool Delete(Template template) {
+            if (template == null) {
+                return false;
+            }
+
             _context.templates.Remove(template);
             _context.SaveChanges();
-            return !TemplateExists(template.id);
+            return !_context.templates.Any(t => t.id.Equals(templateId));
         }
 
-        private bool UserHasTemplate(long userId) {
-            return _context.templates.Any(template => template.user.id.Equals(userId));
+        private static IQueryable<Template> SetIncludes(IQueryable<Template> templates) {
+            return templates.Include(template => template.user)
+                .Include(template => template.medicalCompany)
+                .ThenInclude(comp => comp.address)
+                .ThenInclude(ad => ad.zipcode)
+                .Include(template => template.medicalCompany)
+                .ThenInclude(comp => comp.territorialUnit)
+                .Include(comp => comp.wastes)
+                .Include(comp => comp.loadingCodes)
+                .Include(comp => comp.wasteCompanies)
+                .ThenInclude(wc => wc.address)
+                .ThenInclude(ad => ad.zipcode)
+                .Include(template => template.wasteCompanies)
+                .ThenInclude(wc => wc.territorialUnit)
+                .AsSplitQuery()
+                .AsNoTracking();
         }
 
-        private bool TemplateExists(long templateId) {
-            return _context.templates.Any(template => template.id.Equals(templateId));
+        public bool SameTemplateExists(long userId, string templateTitle) {
+            return _context.templates.Any(template => template.user.id.Equals(userId) && template.title.Equals(templateTitle));
+        }
+
+        private static void UpdateLinks(Template newTemplate, Template oldTemplate) {
+            foreach (LoadingCode loadingCode in oldTemplate.loadingCodes) {
+                newTemplate.templateLoadingCodes.Add(
+                new TemplateLoadingCode {
+                    template = newTemplate,
+                    loadingCode = loadingCode
+                });
+            }
+
+            foreach (Waste waste in oldTemplate.wastes) {
+                newTemplate.templateWastes.Add(
+                new TemplateWaste {
+                    template = newTemplate,
+                    waste = waste
+                });
+            }
         }
     }
 }

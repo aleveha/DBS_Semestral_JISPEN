@@ -6,7 +6,6 @@ namespace api.Core.Managers {
         List<Template> GetAllTemplates(long userId);
         Template Get(long templateId);
         Template Add(Template template);
-        Template Update(Template template);
-        bool Delete(Template template);
+        bool Delete(long templateId);
     }
 }

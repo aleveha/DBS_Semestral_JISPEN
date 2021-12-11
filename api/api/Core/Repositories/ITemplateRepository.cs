@@ -6,7 +6,7 @@ namespace api.Core.Repositories {
         List<Template> GetAll(long userId);
         Template Get(long templateId);
         Template Add(Template template);
-        Template Update(Template template);
-        bool Delete(Template template);
+        bool Delete(long templateId);
+        bool SameTemplateExists(long userId, string templateTitle);
     }
 }

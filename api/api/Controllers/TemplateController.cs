@@ -17,34 +17,29 @@ namespace api.Controllers {
         }
 
         [HttpGet]
-        [Route("/template/getAllTemplates")]
+        [Route("/template/get-all")]
         public ActionResult<List<Template>> GetAll(long userId) {
             return Ok(_templateManager.GetAllTemplates(userId));
         }
 
         [HttpGet]
-        [Route("/template/getTemplate")]
-        public ActionResult<List<Template>> Get(long id) {
+        [Route("/template/get")]
+        public ActionResult<Template> Get(long id) {
             Template result = _templateManager.Get(id);
             return result == null ? StatusCode(StatusCodes.Status400BadRequest) : Ok(result);
         }
 
         [HttpPost]
-        [Route("/template/addTemplate")]
+        [Route("/template/add")]
         public ActionResult<Template> Add(Template template) {
-            return Ok(_templateManager.Add(template));
-        }
-
-        [HttpPost]
-        [Route("/template/updateTemplate")]
-        public ActionResult<Template> Update(Template template) {
-            return Ok(_templateManager.Update(template));
+            Template result = _templateManager.Add(template);
+            return result == null ? StatusCode(StatusCodes.Status400BadRequest) : Ok(result);
         }
 
         [HttpDelete]
-        [Route("/template/deleteTemplate")]
-        public ActionResult<bool> Delete(Template template) {
-            return Ok(_templateManager.Delete(template));
+        [Route("/template/delete")]
+        public ActionResult<bool> Delete(long id) {
+            return Ok(_templateManager.Delete(id));
         }
     }
 }
