@@ -10,5 +10,5 @@
 3. Export data of created records to XML format
 
 ### Database design:
-**PostgeSQL 13**
+**PostgeSQL 13**\
 ![jispen_psql](https://user-images.githubusercontent.com/63300936/145693348-a8bb8c2d-0579-4c83-b159-e56218decaeb.png)
