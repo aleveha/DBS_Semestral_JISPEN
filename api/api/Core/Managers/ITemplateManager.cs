@@ -7,5 +7,9 @@ namespace api.Core.Managers {
         Template Get(long templateId);
         Template Add(Template template);
         bool Delete(long templateId);
+        List<ZipCode> GetAllZipCodes();
+        List<TerritorialUnit> GetAllTerritorialUnits();
+        List<Waste> GetAllWastes();
+        List<LoadingCode> GetAllLoadingCodes();
     }
 }

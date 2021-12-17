@@ -11,12 +11,20 @@ namespace api.App {
         private readonly IMedicalCompanyRepository _medicalCompanyRepository;
         private readonly IAddressRepository _addressRepository;
         private readonly IWasteCompanyRepository _wasteCompanyRepository;
+        private readonly IZipcodeRepository _zipcodeRepository;
+        private readonly ITerritorialUnitRepository _territorialUnitRepository;
+        private readonly IWasteRepository _wasteRepository;
+        private readonly ILoadingCodeRepository _loadingCodeRepository;
 
         public TemplateManager(ApplicationContext context) {
             _templateRepository = new TemplateRepository(context);
             _medicalCompanyRepository = new MedicalCompanyRepository(context);
             _addressRepository = new AddressRepository(context);
             _wasteCompanyRepository = new WasteCompanyRepository(context);
+            _zipcodeRepository = new ZipcodeRepository(context);
+            _territorialUnitRepository = new TerritorialUnitRepository(context);
+            _wasteRepository = new WasteRepository(context);
+            _loadingCodeRepository = new LoadingCodeRepository(context);
         }
 
         public List<Template> GetAllTemplates(long userId) {
@@ -44,6 +52,22 @@ namespace api.App {
 
         public bool Delete(long templateId) {
             return _templateRepository.Delete(templateId);
+        }
+
+        public List<ZipCode> GetAllZipCodes() {
+            return _zipcodeRepository.GetAll();
+        }
+
+        public List<TerritorialUnit> GetAllTerritorialUnits() {
+            return _territorialUnitRepository.GetAll();
+        }
+
+        public List<Waste> GetAllWastes() {
+            return _wasteRepository.GetAll();
+        }
+
+        public List<LoadingCode> GetAllLoadingCodes() {
+            return _loadingCodeRepository.GetAll();
         }
     }
 }
