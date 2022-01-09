@@ -71,3 +71,6 @@ web/node_modules
 web/node_modules/*
 api/.idea
 api/.idea/*
+api/api/bin
+api/api/obj
+api/api/appsettings.json
