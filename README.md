@@ -24,13 +24,29 @@ Front-end: Typescript, React, Material-UI
 ![jispen_psql](https://user-images.githubusercontent.com/63300936/145693348-a8bb8c2d-0579-4c83-b159-e56218decaeb.png)
 
 ### Connecting to the database:
-Entity Framework 5 is used to connect to the database.\
-All tables and enitites are defined in `ApplicationContext` class.\
-Instance of `ApplicationContext` is used in persistance classes to get access to specific table.\
-<img src="https://user-images.githubusercontent.com/63300936/148684080-16e9f5ab-f15f-497f-8723-0c804932fd91.png" /><br/>
-<img src="https://user-images.githubusercontent.com/63300936/148684098-7f311081-8562-479c-9edf-ed1d699a4c8e.png" />
+`Startup.cs`
+```
+...
+services.AddDbContext<ApplicationContext>(
+    options => options.UseNpgsql(_configuration.GetConnectionString("DefaultConnection"))
+);
+...
+```
+`appsettings.json`
+```
+{
+  ...
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=aleveha.site;Port=5000;Username=aleveha;Password=21022001qQ;Database=jispen"
+  }
+  ...
+}
+```
 
 ### SQL Injection:
 Beacuse of using Entity Framework prevention of SQL injections is easier.\
 Also, almost all controllers' parameters are of the "long" type, which does not allow sending invalid data (like "1 or 1=1" to select SQL).\
-The only way to send a `string` value to the program is a user controller, however, it accepts 2 parameters, one of which is a password that is hashed before being sent to the database, which prevents SQL injections.
+The only way to send a `string` value to the program is a user controller, however, it accepts 2 parameters.\
+First one is a password that is hashed before being sent to the database, which prevents SQL injections.
+Second one is email, which is controlled by validation.
+So, for this program this kind of security is enought.
