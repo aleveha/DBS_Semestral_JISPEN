@@ -5,6 +5,7 @@ using api.Models;
 using api.Persistence;
 using api.Persistence.Repositories;
 using api.Helpers.EmailSender;
+using api.Helpers.EmailValidation;
 using HashCode = api.Helpers.HashCode;
 
 namespace api.App {
@@ -16,6 +17,10 @@ namespace api.App {
         }
 
         public User LogIn(string email, string password) {
+            if (!EmailValidator.IsEmailValid(email)) {
+                return null;
+            }
+
             User user = _userRepository.Get(email);
 
             if (user == null) {
@@ -29,6 +34,10 @@ namespace api.App {
         }
 
         public User Register(string email, string password) {
+            if (!EmailValidator.IsEmailValid(email)) {
+                return null;
+            }
+            
             string confirmationCode = HashCode.GetRandomString(10);
             string hashedPassword = HashCode.Get(password, HashCode.CreateSalt());
             User user = _userRepository.Add(new User(email, hashedPassword, confirmationCode));
@@ -43,6 +52,10 @@ namespace api.App {
         }
 
         public User ConfirmRegistration(string email, string confirmationCode) {
+            if (!EmailValidator.IsEmailValid(email)) {
+                return null;
+            }
+            
             User user = _userRepository.Get(email);
 
             if (user == null) {
