@@ -50,3 +50,6 @@ The only way to send a `string` value to the program is a user controller, howev
 First one is a password that is hashed before being sent to the database, which prevents SQL injections.
 Second one is email, which is controlled by validation.
 So, for this program this kind of security is enought.
+
+### Application design (Figma)
+https://www.figma.com/file/ciUc6o2wvTDGywXl37BbGS/JISPEN
