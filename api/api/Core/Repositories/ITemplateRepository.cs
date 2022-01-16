@@ -5,7 +5,7 @@ namespace api.Core.Repositories {
     public interface ITemplateRepository {
         List<Template> GetAll(long userId);
         Template Get(long templateId);
-        Template Add(Template template);
+        Template Add(Template inputTemplate);
         bool Delete(long templateId);
         bool SameTemplateExists(long userId, string templateTitle);
     }

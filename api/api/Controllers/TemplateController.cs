@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers {
     [ApiController]
-    [Route("api/template")]
+    [Route("api/templates")]
     public class TemplateController : Controller {
         private readonly ITemplateManager _templateManager;
 
@@ -17,27 +17,27 @@ namespace api.Controllers {
         }
 
         [HttpGet]
-        [Route("/template/get-all")]
+        [Route("/templates/get-all")]
         public ActionResult<List<Template>> GetAll(long userId) {
             return Ok(_templateManager.GetAllTemplates(userId));
         }
 
         [HttpGet]
-        [Route("/template/get")]
+        [Route("/templates/get")]
         public ActionResult<Template> Get(long id) {
             Template result = _templateManager.Get(id);
             return result == null ? StatusCode(StatusCodes.Status400BadRequest) : Ok(result);
         }
 
         [HttpPost]
-        [Route("/template/add")]
+        [Route("/templates/add")]
         public ActionResult<Template> Add(Template template) {
             Template result = _templateManager.Add(template);
             return result == null ? StatusCode(StatusCodes.Status400BadRequest) : Ok(result);
         }
 
         [HttpDelete]
-        [Route("/template/delete")]
+        [Route("/templates/delete")]
         public ActionResult<bool> Delete(long id) {
             return Ok(_templateManager.Delete(id));
         }

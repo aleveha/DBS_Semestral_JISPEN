@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers {
     [ApiController]
-    [Route("api/territorial-unit")]
+    [Route("api/territorial-units")]
     public class TerritorialUnitController {
         private readonly ITemplateManager _templateManager;
 
@@ -16,7 +16,7 @@ namespace api.Controllers {
         }
 
         [HttpGet]
-        [Route("/territorial-unit/get-all")]
+        [Route("/territorial-units/get-all")]
         public List<TerritorialUnit> GetAll() {
             return _templateManager.GetAllTerritorialUnits();
         }

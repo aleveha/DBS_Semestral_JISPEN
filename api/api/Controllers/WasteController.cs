@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers {
     [ApiController]
-    [Route("api/waste")]
+    [Route("api/wastes")]
     public class WasteController {
         private readonly ITemplateManager _templateManager;
 
@@ -16,7 +16,7 @@ namespace api.Controllers {
         }
 
         [HttpGet]
-        [Route("/waste/get-all")]
+        [Route("/wastes/get-all")]
         public List<Waste> GetAll() {
             return _templateManager.GetAllWastes();
         }

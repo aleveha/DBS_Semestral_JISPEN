@@ -1,33 +1,36 @@
 using System.IO;
 using System.Net;
 using System.Net.Mail;
+using Microsoft.Extensions.Configuration;
 
 namespace api.Helpers.EmailSender {
-    public static class EmailSender {
+    public class EmailSender {
+        private static readonly IConfigurationRoot AppConfig =
+            new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
+
         private static readonly MailMessage Message = new MailMessage();
-        private static readonly SmtpClient Client = new SmtpClient("smtp-mail.outlook.com", 587);
+
+        private static readonly SmtpClient Client = new SmtpClient(
+        AppConfig["EmailSender:Client:Host"],
+        int.Parse(AppConfig["EmailSender:Client:Port"]));
 
         private static void ConfigureClient() {
             Client.EnableSsl = true;
-            Client.Credentials = new NetworkCredential("jispen.inisoft@outlook.com", "jispen_inisoft");
+            Client.Credentials = new NetworkCredential(AppConfig["EmailSender:Credentials:UserName"], AppConfig["EmailSender:Credentials:Password"]);
         }
 
-        private static void ConfigureMessage(string email, string verificationCode) {
-            Message.Subject = "Potvrzení registrace v aplikaci JISPEN";
+        private static void ConfigureMessage(string emailTo, string subject, string body) {
+            Message.Subject = subject;
             Message.IsBodyHtml = true;
-            Message.Body = File.ReadAllText("./Helpers/EmailSender/verificationTemplate.html").Replace("{code}", verificationCode);
-            Message.From = new MailAddress("jispen.inisoft@outlook.com", "JISPEN");
-            Message.To.Add(email);
+            Message.Body = body;
+            Message.From = new MailAddress(AppConfig["EmailSender:Email:Address"], AppConfig["EmailSender:Email:Name"]);
+            Message.To.Add(emailTo);
         }
 
-        private static void SendMessage() {
-            Client.Send(Message);
-        }
-
-        public static void SendVerification(string email, string verificationCode) {
+        public static void SendEmail(string emailTo, string subject, string body) {
             ConfigureClient();
-            ConfigureMessage(email, verificationCode);
-            SendMessage();
+            ConfigureMessage(emailTo, subject, body);
+            Client.Send(Message);
         }
     }
 }

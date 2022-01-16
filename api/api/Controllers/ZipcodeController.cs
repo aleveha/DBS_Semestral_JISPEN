@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers {
     [ApiController]
-    [Route("api/zipcode")]
+    [Route("api/zipcodes")]
     public class ZipcodeController : Controller {
         private readonly ITemplateManager _templateManager;
 
@@ -16,7 +16,7 @@ namespace api.Controllers {
         }
 
         [HttpGet]
-        [Route("/zipcode/get-all")]
+        [Route("/zipcodes/get-all")]
         public List<ZipCode> GetAll() {
             return _templateManager.GetAllZipCodes();
         }

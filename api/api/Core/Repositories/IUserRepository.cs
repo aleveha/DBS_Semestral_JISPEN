@@ -7,6 +7,5 @@ namespace api.Core.Repositories {
         User Add(User user);
 
         User Verify(User user);
-        // User ChangePassword(User user);
     }
 }

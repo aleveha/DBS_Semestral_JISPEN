@@ -6,6 +6,5 @@ namespace api.Core.Managers {
         User Register(string email, string password);
 
         User ConfirmRegistration(string email, string confirmationCode);
-        // User ChangePassword(string email);
     }
 }

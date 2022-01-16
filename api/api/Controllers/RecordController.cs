@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers {
     [ApiController]
-    [Route("api/record")]
+    [Route("api/records")]
     public class RecordController : Controller {
         private readonly IRecordManager _recordManager;
 
@@ -17,26 +17,26 @@ namespace api.Controllers {
         }
 
         [HttpGet]
-        [Route("/record/get-all")]
+        [Route("/records/get-all")]
         public ActionResult<List<Record>> GetAll(long userId) {
             return Ok(_recordManager.GetAll(userId));
         }
 
         [HttpGet]
-        [Route("/record/get")]
+        [Route("/records/get")]
         public ActionResult<Record> Get(long id) {
             Record record = _recordManager.Get(id);
             return record == null ? StatusCode(StatusCodes.Status404NotFound) : Ok(record);
         }
 
         [HttpPost]
-        [Route("/record/add")]
+        [Route("/records/add")]
         public ActionResult<Record> Add(Record record) {
             return Ok(_recordManager.Add(record));
         }
 
         [HttpDelete]
-        [Route("/record/delete")]
+        [Route("/records/delete")]
         public ActionResult<bool> Delete(long id) {
             bool? isDeleted = _recordManager.Delete(id);
             return isDeleted == null ? StatusCode(StatusCodes.Status400BadRequest) : Ok(isDeleted);

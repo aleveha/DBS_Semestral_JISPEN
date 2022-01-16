@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers {
     [ApiController]
-    [Route("api/loading-code")]
+    [Route("api/loading-codes")]
     public class LoadingCodeController {
         private readonly ITemplateManager _templateManager;
 
@@ -16,7 +16,7 @@ namespace api.Controllers {
         }
 
         [HttpGet]
-        [Route("/loading-code/get-all")]
+        [Route("/loading-codes/get-all")]
         public List<LoadingCode> GetAll() {
             return _templateManager.GetAllLoadingCodes();
         }

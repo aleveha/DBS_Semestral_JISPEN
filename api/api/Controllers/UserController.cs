@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers {
     [ApiController]
-    [Route("api/user")]
+    [Route("api/users")]
     public class UserController : ControllerBase {
         private readonly IAuthorizationManager _authenticationManager;
 
@@ -16,7 +16,7 @@ namespace api.Controllers {
         }
 
         [HttpPost]
-        [Route("/user/login")]
+        [Route("/users/login")]
         public ActionResult<User> LogIn(string email, string password) {
             User loggedInUser = _authenticationManager.LogIn(email, password);
 
@@ -32,14 +32,14 @@ namespace api.Controllers {
         }
 
         [HttpPost]
-        [Route("/user/register")]
+        [Route("/users/register")]
         public ActionResult<User> Register(string email, string password) {
             User registeredUser = _authenticationManager.Register(email, password);
             return registeredUser == null ? StatusCode(StatusCodes.Status400BadRequest) : Ok(registeredUser);
         }
 
         [HttpPost]
-        [Route("/user/verify")]
+        [Route("/users/verify")]
         public ActionResult<User> ConfirmRegistration(string email, string confirmationCode) {
             User confirmedUser = _authenticationManager.ConfirmRegistration(email, confirmationCode);
 

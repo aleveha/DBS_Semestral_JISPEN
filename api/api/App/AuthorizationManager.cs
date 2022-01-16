@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using api.Core.Managers;
 using api.Core.Repositories;
 using api.Models;
@@ -6,7 +7,7 @@ using api.Persistence;
 using api.Persistence.Repositories;
 using api.Helpers.EmailSender;
 using api.Helpers.EmailValidation;
-using HashCode = api.Helpers.HashCode;
+using api.Helpers.HashUtility;
 
 namespace api.App {
     public class AuthorizationManager : IAuthorizationManager {
@@ -27,26 +28,27 @@ namespace api.App {
                 return null;
             }
 
-            string[] passwordParams = user.password.Split(":");
-            string hashedPassword = HashCode.Get(password, Convert.FromBase64String(passwordParams[0])).Split(":")[1];
+            string[] userPasswordHashedString = user.password.Split(":");
 
-            return hashedPassword == passwordParams[1] ? user : null;
+            return IsPasswordCorrect(userPasswordHashedString[1], password, userPasswordHashedString[0]) ? user : null;
         }
 
         public User Register(string email, string password) {
             if (!EmailValidator.IsEmailValid(email)) {
                 return null;
             }
-            
-            string confirmationCode = HashCode.GetRandomString(10);
-            string hashedPassword = HashCode.Get(password, HashCode.CreateSalt());
-            User user = _userRepository.Add(new User(email, hashedPassword, confirmationCode));
+
+            string confirmationCode = HashUtility.GetRandomString(10);
+            User user = _userRepository.Add(new User(email, HashUtility.GetHash(password), confirmationCode));
 
             if (user == null) {
                 return null;
             }
 
-            EmailSender.SendVerification(email, confirmationCode);
+            EmailSender.SendEmail(
+            email,
+            "Potvrzení registrace v aplikaci JISPEN",
+            File.ReadAllText("./Helpers/EmailSender/verificationTemplate.html").Replace("{code}", confirmationCode));
 
             return user;
         }
@@ -55,7 +57,7 @@ namespace api.App {
             if (!EmailValidator.IsEmailValid(email)) {
                 return null;
             }
-            
+
             User user = _userRepository.Get(email);
 
             if (user == null) {
@@ -70,6 +72,10 @@ namespace api.App {
             user.verifiedAt = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
 
             return _userRepository.Verify(user);
+        }
+
+        private static bool IsPasswordCorrect(string userPasswordHash, string inputPassword, string salt) {
+            return userPasswordHash == HashUtility.GetHash(inputPassword, Convert.FromBase64String(salt)).Split(":")[1];
         }
     }
 }
